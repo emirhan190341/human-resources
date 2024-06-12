@@ -1,9 +1,12 @@
 package com.emirhanarici.human_resources_project.common;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.PreUpdate;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,22 +20,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public abstract class BaseEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
-    @Column(name = "CREATED_BY")
-    private String createdBy;
 
     @UpdateTimestamp
     private LocalDateTime updatedAt;
-
-    @Column(name = "UPDATED_BY")
-    private String updatedBy;
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedBy = getUsernameFromAuthentication();
-    }
 
 
 }
