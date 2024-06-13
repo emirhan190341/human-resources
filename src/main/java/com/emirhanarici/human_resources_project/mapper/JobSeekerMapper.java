@@ -2,14 +2,13 @@ package com.emirhanarici.human_resources_project.mapper;
 
 import com.emirhanarici.human_resources_project.model.JobSeeker;
 import com.emirhanarici.human_resources_project.payload.request.CreateJobSeekerRequest;
-import com.emirhanarici.human_resources_project.payload.response.JobSeekerDTO;
 import com.emirhanarici.human_resources_project.payload.response.JobSeekerResponse;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class JobSeekerMapper {
 
-    public  JobSeeker mapToJobSeeker(CreateJobSeekerRequest request) {
+    public JobSeeker mapToJobSeeker(CreateJobSeekerRequest request) {
         return JobSeeker.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
@@ -20,10 +19,11 @@ public class JobSeekerMapper {
                 .nationalityId(request.getNationalityId())
                 .birthYear(request.getBirthYear())
                 .profilePicture(request.getProfilePicture())
+
                 .build();
     }
 
-    public  JobSeekerResponse mapToJobSeekerResponse(JobSeeker jobSeeker) {
+    public JobSeekerResponse mapToJobSeekerResponse(JobSeeker jobSeeker) {
         return JobSeekerResponse.builder()
                 .id(jobSeeker.getId())
                 .firstname(jobSeeker.getFirstname())

@@ -20,11 +20,12 @@ public class JobSeekerService {
     public JobSeekerResponse createJobSeeker(CreateJobSeekerRequest request) {
 
         JobSeeker jobSeeker = JobSeekerMapper.mapToJobSeeker(request);
+
         jobSeekerRepository.save(jobSeeker);
 
         return JobSeekerMapper.mapToJobSeekerResponse(jobSeeker);
-
     }
+
 
     public List<JobSeekerResponse> getAllJobSeekers() {
         List<JobSeeker> jobSeekers = jobSeekerRepository.findAll();

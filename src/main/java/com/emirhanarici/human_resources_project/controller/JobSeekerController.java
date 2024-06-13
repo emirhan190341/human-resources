@@ -16,6 +16,8 @@ import java.util.List;
 @Slf4j
 public class JobSeekerController {
 
+    //todo: Docker Compose database,relationships,swagger,exception handling,tests,custom exception class
+
     private final JobSeekerService jobSeekerService;
 
     @PostMapping()
@@ -29,6 +31,10 @@ public class JobSeekerController {
         log.info("JobSeekerController.getAllJobSeekers");
         return CustomResponse.ok(jobSeekerService.getAllJobSeekers());
     }
+
+
+
+
 
 
 }
