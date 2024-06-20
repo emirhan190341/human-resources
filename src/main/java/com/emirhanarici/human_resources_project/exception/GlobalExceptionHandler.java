@@ -2,20 +2,45 @@ package com.emirhanarici.human_resources_project.exception;
 
 import com.emirhanarici.human_resources_project.exception.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @ControllerAdvice
 @Slf4j
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers,
+                                                                  HttpStatusCode status,
+                                                                  WebRequest request) {
+        log.error(ex.getMessage(), ex);
+
+        List<String> details = ex.getBindingResult()
+                .getFieldErrors()
+                .stream()
+                .map(error -> error.getObjectName() + " : " + error.getDefaultMessage())
+                .toList();
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .errorDetails(details)
+                .message("Validation Errors")
+                .statusCode(status.value())
+                .status(HttpStatus.valueOf(status.value()))
+                .build();
+
+        return ResponseEntity.status(status).body(errorResponse);
+
+    }
 
     @ExceptionHandler(JobSeekerNotFoundException.class)
     public ResponseEntity<Object> handleJobSeekerNotFoundException(JobSeekerNotFoundException ex) {
@@ -41,19 +66,6 @@ public class GlobalExceptionHandler {
                 .build();
 
         return ResponseEntity.status(JobNotFoundException.STATUS).body(errorResponse);
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, String> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        return errors;
     }
 
 }

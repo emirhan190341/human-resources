@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -20,7 +21,7 @@ public class JobSeekerResponse {
     private String address;
     private String mobilPhone;
     private String nationalityId;
-    private String birthYear;
+    private LocalDate birthYear;
     private String profilePicture;
 
 

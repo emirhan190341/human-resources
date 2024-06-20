@@ -5,6 +5,7 @@ import com.emirhanarici.human_resources_project.payload.request.CreateJobSeekerR
 import com.emirhanarici.human_resources_project.payload.request.UpdateJobSeekerRequest;
 import com.emirhanarici.human_resources_project.payload.response.JobSeekerResponse;
 import com.emirhanarici.human_resources_project.service.JobSeekerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +23,7 @@ public class JobSeekerController {
     private final JobSeekerService jobSeekerService;
 
     @PostMapping()
-    public CustomResponse<JobSeekerResponse> createJobSeeker(@RequestBody CreateJobSeekerRequest request) {
+    public CustomResponse<JobSeekerResponse> createJobSeeker(@RequestBody @Valid CreateJobSeekerRequest request) {
         log.info("JobSeekerController.createJobSeeker request: {}", request);
         return CustomResponse.created(jobSeekerService.createJobSeeker(request));
     }
@@ -51,5 +52,5 @@ public class JobSeekerController {
         log.info("JobSeekerController.deleteJobSeeker id: {}", id);
         return CustomResponse.ok(jobSeekerService.deleteJobSeeker(id));
     }
-    
+
 }

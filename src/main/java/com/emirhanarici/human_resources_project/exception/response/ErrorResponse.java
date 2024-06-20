@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -19,6 +20,9 @@ public class ErrorResponse {
     private String message;
     private HttpStatus status;
     private Integer statusCode;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private List<String> errorDetails;
 
     @Builder.Default
     private LocalDateTime timestamp = LocalDateTime.now();
