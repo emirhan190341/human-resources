@@ -21,6 +21,7 @@ import java.util.List;
 public class JobSeeker extends BaseEntity {
 
 
+
     private String firstname;
     private String lastname;
     private String email;

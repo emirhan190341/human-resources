@@ -19,7 +19,6 @@ public class JobSeekerMapper {
                 .nationalityId(request.getNationalityId())
                 .birthYear(request.getBirthYear())
                 .profilePicture(request.getProfilePicture())
-
                 .build();
     }
 
