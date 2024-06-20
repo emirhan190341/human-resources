@@ -61,6 +61,6 @@ public class JobSeekerService {
     public String deleteJobSeeker(Long id) {
         JobSeeker jobSeeker = jobSeekerRepository.findById(id).orElseThrow(() -> new JobSeekerNotFoundException("JobSeeker not found with id: " + id));
         jobSeekerRepository.delete(jobSeeker);
-        return "JobSeeker deleted successfully";
+        return "JobSeeker deleted successfully with id: " + id;
     }
 }

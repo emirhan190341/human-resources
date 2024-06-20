@@ -44,16 +44,11 @@ public class JobSeekerController {
         log.info("JobSeekerController.updateJobSeeker id: {}, request: {}", id, request);
         return CustomResponse.ok(jobSeekerService.updateJobSeeker(id, request));
     }
-
+    
     @DeleteMapping("/{id}")
     public CustomResponse<String> deleteJobSeeker(@PathVariable Long id) {
         log.info("JobSeekerController.deleteJobSeeker id: {}", id);
         return CustomResponse.ok(jobSeekerService.deleteJobSeeker(id));
     }
-
-
-
-
-
-
+    
 }
