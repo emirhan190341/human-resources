@@ -63,4 +63,5 @@ public class JobSeekerService {
         jobSeekerRepository.delete(jobSeeker);
         return "JobSeeker deleted successfully with id: " + id;
     }
+
 }
