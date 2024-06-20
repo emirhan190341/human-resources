@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.LocalDateTime;
 
-/**
- * Represents a custom response object with optional data and HTTP status.
- * @param <T> The type of the response data.
- */
+
 @Getter
 @Setter
 @Builder
@@ -44,13 +41,7 @@ public class CustomResponse<T> {
             .build();
 
 
-    /**
-     * Generates a successful response with an HTTP status of 200 OK.
-     *
-     * @param response The response data to be included in the CustomResponse.
-     * @param <E>      The type of the response data.
-     * @return A CustomResponse object containing the provided response data.
-     */
+
     public static <E> CustomResponse<E> ok(E response) {
         return CustomResponse.<E>builder()
                 .response(response)
@@ -59,13 +50,7 @@ public class CustomResponse<T> {
                 .build();
     }
 
-    /**
-     * Generates a successful response with an HTTP status of 201 Created.
-     *
-     * @param response The response data to be included in the CustomResponse.
-     * @param <E>      The type of the response data.
-     * @return A CustomResponse object containing the provided response data.
-     */
+
     @ResponseStatus(HttpStatus.CREATED)
     public static <E> CustomResponse<E> created(E response) {
         return CustomResponse.<E>builder()
