@@ -39,12 +39,13 @@ public class JobSeekerController {
         return CustomResponse.ok(jobSeekerService.getJobSeekerById(id));
     }
 
+
     @PutMapping("/{id}")
     public CustomResponse<JobSeekerResponse> updateJobSeeker(@PathVariable Long id, @RequestBody UpdateJobSeekerRequest request) {
         log.info("JobSeekerController.updateJobSeeker id: {}, request: {}", id, request);
         return CustomResponse.ok(jobSeekerService.updateJobSeeker(id, request));
     }
-    
+
     @DeleteMapping("/{id}")
     public CustomResponse<String> deleteJobSeeker(@PathVariable Long id) {
         log.info("JobSeekerController.deleteJobSeeker id: {}", id);
