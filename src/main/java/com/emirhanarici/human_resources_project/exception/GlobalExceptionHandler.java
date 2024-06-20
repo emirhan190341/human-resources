@@ -16,8 +16,8 @@ public class GlobalExceptionHandler {
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .message(ex.getMessage())
-                .statusCode(ex.STATUS.value())
-                .status(ex.STATUS)
+                .statusCode(JobSeekerNotFoundException.STATUS.value())
+                .status(JobSeekerNotFoundException.STATUS)
                 .build();
 
         return ResponseEntity.status(JobSeekerNotFoundException.STATUS).body(errorResponse);
