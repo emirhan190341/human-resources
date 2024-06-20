@@ -4,6 +4,7 @@ import com.emirhanarici.human_resources_project.exception.JobSeekerNotFoundExcep
 import com.emirhanarici.human_resources_project.mapper.JobSeekerMapper;
 import com.emirhanarici.human_resources_project.model.JobSeeker;
 import com.emirhanarici.human_resources_project.payload.request.CreateJobSeekerRequest;
+import com.emirhanarici.human_resources_project.payload.request.UpdateJobSeekerRequest;
 import com.emirhanarici.human_resources_project.payload.response.JobSeekerResponse;
 import com.emirhanarici.human_resources_project.repository.JobSeekerRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,5 +38,29 @@ public class JobSeekerService {
     public JobSeekerResponse getJobSeekerById(Long id) {
         JobSeeker jobSeeker = jobSeekerRepository.findById(id).orElseThrow(() -> new JobSeekerNotFoundException("JobSeeker not found with id: " + id));
         return JobSeekerMapper.mapToJobSeekerResponse(jobSeeker);
+    }
+
+    public JobSeekerResponse updateJobSeeker(Long id, UpdateJobSeekerRequest request) {
+
+        JobSeeker jobSeeker = jobSeekerRepository.findById(id).orElseThrow(() -> new JobSeekerNotFoundException("JobSeeker not found with id: " + id));
+
+        jobSeeker.setFirstname(request.getFirstname());
+        jobSeeker.setLastname(request.getLastname());
+        jobSeeker.setEmail(request.getEmail());
+        jobSeeker.setPassword(request.getPassword());
+        jobSeeker.setAddress(request.getAddress());
+        jobSeeker.setMobilPhone(request.getMobilPhone());
+        jobSeeker.setProfilePicture(request.getProfilePicture());
+
+        jobSeekerRepository.save(jobSeeker);
+
+        return JobSeekerMapper.mapToJobSeekerResponse(jobSeeker);
+
+    }
+
+    public String deleteJobSeeker(Long id) {
+        JobSeeker jobSeeker = jobSeekerRepository.findById(id).orElseThrow(() -> new JobSeekerNotFoundException("JobSeeker not found with id: " + id));
+        jobSeekerRepository.delete(jobSeeker);
+        return "JobSeeker deleted successfully";
     }
 }

@@ -2,6 +2,7 @@ package com.emirhanarici.human_resources_project.controller;
 
 import com.emirhanarici.human_resources_project.payload.CustomResponse;
 import com.emirhanarici.human_resources_project.payload.request.CreateJobSeekerRequest;
+import com.emirhanarici.human_resources_project.payload.request.UpdateJobSeekerRequest;
 import com.emirhanarici.human_resources_project.payload.response.JobSeekerResponse;
 import com.emirhanarici.human_resources_project.service.JobSeekerService;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,18 @@ public class JobSeekerController {
     public CustomResponse<JobSeekerResponse> getJobSeekerById(@PathVariable Long id) {
         log.info("JobSeekerController.getJobSeekerById id: {}", id);
         return CustomResponse.ok(jobSeekerService.getJobSeekerById(id));
+    }
+
+    @PutMapping("/{id}")
+    public CustomResponse<JobSeekerResponse> updateJobSeeker(@PathVariable Long id, @RequestBody UpdateJobSeekerRequest request) {
+        log.info("JobSeekerController.updateJobSeeker id: {}, request: {}", id, request);
+        return CustomResponse.ok(jobSeekerService.updateJobSeeker(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public CustomResponse<String> deleteJobSeeker(@PathVariable Long id) {
+        log.info("JobSeekerController.deleteJobSeeker id: {}", id);
+        return CustomResponse.ok(jobSeekerService.deleteJobSeeker(id));
     }
 
 
