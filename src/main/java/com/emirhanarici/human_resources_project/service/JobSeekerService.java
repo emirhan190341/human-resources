@@ -1,9 +1,9 @@
 package com.emirhanarici.human_resources_project.service;
 
+import com.emirhanarici.human_resources_project.exception.JobSeekerNotFoundException;
 import com.emirhanarici.human_resources_project.mapper.JobSeekerMapper;
 import com.emirhanarici.human_resources_project.model.JobSeeker;
 import com.emirhanarici.human_resources_project.payload.request.CreateJobSeekerRequest;
-import com.emirhanarici.human_resources_project.payload.response.JobSeekerDTO;
 import com.emirhanarici.human_resources_project.payload.response.JobSeekerResponse;
 import com.emirhanarici.human_resources_project.repository.JobSeekerRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +32,10 @@ public class JobSeekerService {
         return jobSeekers.stream()
                 .map(JobSeekerMapper::mapToJobSeekerResponse)
                 .toList();
+    }
+
+    public JobSeekerResponse getJobSeekerById(Long id) {
+        JobSeeker jobSeeker = jobSeekerRepository.findById(id).orElseThrow(() -> new JobSeekerNotFoundException("JobSeeker not found with id: " + id));
+        return JobSeekerMapper.mapToJobSeekerResponse(jobSeeker);
     }
 }

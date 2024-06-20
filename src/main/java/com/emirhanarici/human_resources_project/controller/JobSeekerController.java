@@ -32,6 +32,12 @@ public class JobSeekerController {
         return CustomResponse.ok(jobSeekerService.getAllJobSeekers());
     }
 
+    @GetMapping("/{id}")
+    public CustomResponse<JobSeekerResponse> getJobSeekerById(@PathVariable Long id) {
+        log.info("JobSeekerController.getJobSeekerById id: {}", id);
+        return CustomResponse.ok(jobSeekerService.getJobSeekerById(id));
+    }
+
 
 
 

@@ -1,4 +1,4 @@
-package com.emirhanarici.human_resources_project.payload.response;
+package com.emirhanarici.human_resources_project.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
