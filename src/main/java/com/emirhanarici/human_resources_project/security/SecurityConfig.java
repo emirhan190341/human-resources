@@ -38,9 +38,9 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        req -> req.requestMatchers("/api/v1/auth/**")
+                        req -> req.requestMatchers("/api/v1/auth/**","/api/v1/job-seeker-experience/**")
                                 .permitAll()
-//                                .requestMatchers("/admin_only/**").hasAuthority("ADMIN")
+                                .requestMatchers("/api/v1/job/**").hasRole("HR")
                                 .anyRequest()
                                 .authenticated()
                 ).userDetailsService(userDetailsServiceImpl)

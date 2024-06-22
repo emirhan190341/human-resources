@@ -7,7 +7,11 @@ import com.emirhanarici.human_resources_project.exception.EmailAlreadyExistsExce
 import com.emirhanarici.human_resources_project.model.JobSeeker;
 import com.emirhanarici.human_resources_project.model.role.Role;
 import com.emirhanarici.human_resources_project.repository.JobSeekerRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -23,7 +27,10 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    @Value("${jwt.cookieExpiry}")
+    private int cookieExpiry;
+
+    public AuthenticationResponse register(RegisterRequest request, HttpServletResponse response) {
 
         var jobSeeker = JobSeeker.builder()
                 .firstName(request.getFirstname())
@@ -38,13 +45,22 @@ public class AuthenticationService {
                 .role(Role.JOB_SEEKER)
                 .build();
 
-        if(jobSeekerRepository.existsByEmail(jobSeeker.getEmail())) {
+
+        if (jobSeekerRepository.existsByEmail(jobSeeker.getEmail())) {
             throw new EmailAlreadyExistsException("User with email already exists");
         }
 
 
         var savedUser = jobSeekerRepository.save(jobSeeker);
         var jwtToken = jwtService.generateToken(savedUser);
+
+        ResponseCookie cookie = ResponseCookie.from("accessToken", jwtToken)
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(cookieExpiry)
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)
@@ -76,7 +92,6 @@ public class AuthenticationService {
             throw new AuthenticationFailedException("Authentication failed");
         }
     }
-
 
 
 }

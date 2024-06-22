@@ -1,6 +1,7 @@
 package com.emirhanarici.human_resources_project.auth;
 
 import com.emirhanarici.human_resources_project.exception.AuthenticationFailedException;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,8 +22,8 @@ public class AuthController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid RegisterRequest request) {
-        return ResponseEntity.ok(authenticationService.register(request));
+    public ResponseEntity<AuthenticationResponse> register(@RequestBody @Valid RegisterRequest request, HttpServletResponse response) {
+        return ResponseEntity.ok(authenticationService.register(request,response));
     }
 
     @PostMapping("/login")
