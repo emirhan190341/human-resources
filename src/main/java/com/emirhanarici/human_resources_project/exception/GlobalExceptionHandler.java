@@ -42,30 +42,33 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
-    @ExceptionHandler(JobSeekerNotFoundException.class)
-    public ResponseEntity<Object> handleJobSeekerNotFoundException(JobSeekerNotFoundException ex) {
-        log.error("JobSeekerNotFoundException: {}", ex.getMessage());
+
+    @ExceptionHandler(AlreadyException.class)
+    public ResponseEntity<Object> handleAlreadyException(AlreadyException ex) {
+        log.error("AlreadyException: {}", ex.getMessage());
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .message(ex.getMessage())
-                .statusCode(JobSeekerNotFoundException.STATUS.value())
-                .status(JobSeekerNotFoundException.STATUS)
+                .statusCode(AlreadyException.STATUS.value())
+                .status(AlreadyException.STATUS)
                 .build();
 
-        return ResponseEntity.status(JobSeekerNotFoundException.STATUS).body(errorResponse);
+        return ResponseEntity.status(AlreadyException.STATUS).body(errorResponse);
     }
 
-    @ExceptionHandler(JobNotFoundException.class)
-    public ResponseEntity<Object> handleJobNotFoundException(JobNotFoundException ex) {
-        log.error("JobNotFoundException: {}", ex.getMessage());
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
+        log.error("NotFoundException: {}", ex.getMessage());
 
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .message(ex.getMessage())
-                .statusCode(JobSeekerNotFoundException.STATUS.value())
-                .status(JobSeekerNotFoundException.STATUS)
+                .statusCode(NotFoundException.STATUS.value())
+                .status(NotFoundException.STATUS)
                 .build();
 
-        return ResponseEntity.status(JobNotFoundException.STATUS).body(errorResponse);
+        return ResponseEntity.status(NotFoundException.STATUS).body(errorResponse);
     }
+
+
 
 }
