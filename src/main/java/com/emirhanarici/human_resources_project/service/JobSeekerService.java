@@ -46,7 +46,6 @@ public class JobSeekerService {
 
         jobSeeker.setFirstName(request.getFirstname());
         jobSeeker.setLastName(request.getLastname());
-        jobSeeker.setEmail(request.getEmail());
         jobSeeker.setPassword(request.getPassword());
         jobSeeker.setAddress(request.getAddress());
         jobSeeker.setMobilPhone(request.getMobilPhone());

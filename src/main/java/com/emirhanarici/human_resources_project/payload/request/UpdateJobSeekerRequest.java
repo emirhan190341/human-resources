@@ -5,17 +5,19 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateJobSeekerRequest {
 
-    private String firstname;
-    private String lastname;
-    private String email;
-    private String password;
+    private String firstName;
+    private String lastName;
     private String address;
     private String mobilPhone;
+    private String nationalityId;
+    private LocalDate birthYear;
     private String profilePicture;
 }

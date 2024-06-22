@@ -1,6 +1,9 @@
 package com.emirhanarici.human_resources_project.payload.response;
 
 import com.emirhanarici.human_resources_project.model.JobSeekerExperience;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +16,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JobSeekerResponse {
     private Long id;
     private String firstName;

@@ -23,7 +23,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobSeeker extends BaseEntity implements UserDetails  {
+public class JobSeeker extends BaseEntity  {
 
     private String firstName;
     private String lastName;
@@ -41,33 +41,5 @@ public class JobSeeker extends BaseEntity implements UserDetails  {
     @OneToMany(mappedBy = "jobSeeker",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<JobSeekerExperience> jobSeekerExperiences = new ArrayList<>();
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
 
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
