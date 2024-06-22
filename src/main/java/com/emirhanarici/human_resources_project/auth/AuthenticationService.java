@@ -32,19 +32,6 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(AuthenticationRequest request, HttpServletResponse response) {
 
-//        var jobSeeker = JobSeeker.builder()
-//                .firstName(request.getFirstname())
-//                .lastName(request.getLastname())
-//                .email(request.getEmail())
-//                .password(passwordEncoder.encode(request.getPassword()))
-//                .address(request.getAddress())
-//                .mobilPhone(request.getMobilPhone())
-//                .nationalityId(request.getNationalityId())
-//                .birthYear(request.getBirthYear())
-//                .profilePicture(request.getProfilePicture())
-//                .role(Role.JOB_SEEKER)
-//                .build();
-
         var jobSeeker = JobSeeker.builder()
                 .password(passwordEncoder.encode(request.getPassword()))
                 .email(request.getEmail())
