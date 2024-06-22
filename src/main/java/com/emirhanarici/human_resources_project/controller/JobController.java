@@ -36,5 +36,17 @@ public class JobController {
         return CustomResponse.ok(jobService.getJobById(id));
     }
 
+    @PutMapping("/{id}")
+    public CustomResponse<JobResponse> updateJob(@PathVariable String id, @RequestBody CreateJobRequest request) {
+        log.info("JobController.updateJob id: {}, request: {}", id, request);
+        return CustomResponse.ok(jobService.updateJob(id, request));
+    }
+
+    @DeleteMapping("/{id}")
+    public CustomResponse<String> deleteJob(@PathVariable String id) {
+        log.info("JobController.deleteJob id: {}", id);
+        return CustomResponse.ok(jobService.deleteJob(id));
+    }
+
 
 }

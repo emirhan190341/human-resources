@@ -39,4 +39,24 @@ public class JobService {
         Job job = jobRepository.findById(id).orElseThrow(() -> new JobNotFoundException("Job not found with id: " + id));
         return JobMapper.mapToJobResponse(job);
     }
+
+    public JobResponse updateJob(String id, CreateJobRequest request) {
+        Job job = jobRepository.findById(id).orElseThrow(() -> new JobNotFoundException("Job not found with id: " + id));
+        job.setPosition(request.getPosition());
+        job.setWorkType(request.getWorkType());
+        job.setLocation(request.getLocation());
+        job.setJobDescription(request.getJobDescription());
+        job.setTodo(request.getTodo());
+        job.setRequirements(request.getRequirements());
+        job.setActivationTime(request.getActivationTime());
+        job.setOffTime(request.getOffTime());
+        jobRepository.save(job);
+        return JobMapper.mapToJobResponse(job);
+    }
+
+    public String deleteJob(String id) {
+        Job job = jobRepository.findById(id).orElseThrow(() -> new JobNotFoundException("Job not found with id: " + id));
+        jobRepository.delete(job);
+        return "Job deleted successfully";
+    }
 }

@@ -44,8 +44,8 @@ public class JobSeekerService {
 
         JobSeeker jobSeeker = jobSeekerRepository.findById(id).orElseThrow(() -> new JobSeekerNotFoundException("JobSeeker not found with id: " + id));
 
-        jobSeeker.setFirstname(request.getFirstname());
-        jobSeeker.setLastname(request.getLastname());
+        jobSeeker.setFirstName(request.getFirstname());
+        jobSeeker.setLastName(request.getLastname());
         jobSeeker.setEmail(request.getEmail());
         jobSeeker.setPassword(request.getPassword());
         jobSeeker.setAddress(request.getAddress());

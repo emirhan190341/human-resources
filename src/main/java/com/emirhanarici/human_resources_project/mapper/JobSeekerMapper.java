@@ -10,8 +10,8 @@ public class JobSeekerMapper {
 
     public JobSeeker mapToJobSeeker(CreateJobSeekerRequest request) {
         return JobSeeker.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
+                .firstName(request.getFirstname())
+                .lastName(request.getLastname())
                 .email(request.getEmail())
                 .password(request.getPassword())
                 .address(request.getAddress())
@@ -25,8 +25,8 @@ public class JobSeekerMapper {
     public JobSeekerResponse mapToJobSeekerResponse(JobSeeker jobSeeker) {
         return JobSeekerResponse.builder()
                 .id(jobSeeker.getId())
-                .firstname(jobSeeker.getFirstname())
-                .lastname(jobSeeker.getLastname())
+                .firstName(jobSeeker.getFirstName())
+                .lastName(jobSeeker.getLastName())
                 .email(jobSeeker.getEmail())
                 .password(jobSeeker.getPassword())
                 .address(jobSeeker.getAddress())
@@ -36,6 +36,8 @@ public class JobSeekerMapper {
                 .profilePicture(jobSeeker.getProfilePicture())
                 .build();
     }
+
+
 
 
 }
