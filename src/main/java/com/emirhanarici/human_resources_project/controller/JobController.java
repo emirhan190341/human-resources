@@ -6,6 +6,7 @@ import com.emirhanarici.human_resources_project.payload.response.JobResponse;
 import com.emirhanarici.human_resources_project.service.JobService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class JobController {
     private final JobService jobService;
 
     @PostMapping
+    @PreAuthorize("hasRole('HR')")
     public CustomResponse<JobResponse> createJob(@RequestBody CreateJobRequest request) {
         log.info("JobController.createJob request: {}", request);
         return CustomResponse.created(jobService.createJob(request));

@@ -1,5 +1,6 @@
 package com.emirhanarici.human_resources_project.payload.request;
 
+import com.emirhanarici.human_resources_project.model.JobSeekerExperience;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
@@ -39,5 +40,6 @@ public class CreateJobSeekerRequest {
     @Past(message = "Birth year should be in the past")
     private LocalDate birthYear;
     private String profilePicture;
+
 }
 

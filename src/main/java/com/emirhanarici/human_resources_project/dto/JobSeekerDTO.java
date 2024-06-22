@@ -1,9 +1,12 @@
 package com.emirhanarici.human_resources_project.dto;
 
+import com.emirhanarici.human_resources_project.model.JobSeekerExperience;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -11,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class JobSeekerDTO {
     private Long id;
+    private String firstname;
     private String lastname;
     private String email;
     private String password;
@@ -19,5 +23,6 @@ public class JobSeekerDTO {
     private String nationalityId;
     private String birthYear;
     private String profilePicture;
+    private List<JobSeekerExperience> jobSeekerExperiences;
 
 }

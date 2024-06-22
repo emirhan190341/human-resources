@@ -16,4 +16,7 @@ spring:
 
 jwt:
   secret: "k2joYbebeplmCvRz1baVSb80fc8FIJM4asfadasfdhafdhadfh"
+  cookieExpiry: 1800
+
+
 

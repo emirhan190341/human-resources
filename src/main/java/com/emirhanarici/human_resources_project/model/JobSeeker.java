@@ -3,9 +3,7 @@ package com.emirhanarici.human_resources_project.model;
 import com.emirhanarici.human_resources_project.common.BaseEntity;
 import com.emirhanarici.human_resources_project.model.role.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,6 +37,9 @@ public class JobSeeker extends BaseEntity implements UserDetails  {
     private String profilePicture;
     @Enumerated(value = EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "jobSeeker",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private List<JobSeekerExperience> jobSeekerExperiences = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
