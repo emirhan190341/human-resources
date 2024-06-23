@@ -14,9 +14,25 @@ spring:
     hibernate:
       ddl-auto: create-drop
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: emirhan190341@gmail.com
+    password: phgy nldm ioiv whbz
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            required: true
+            enable: true
+
 jwt:
   secret: "k2joYbebeplmCvRz1baVSb80fc8FIJM4asfadasfdhafdhadfh"
   cookieExpiry: 1800
 
 
 
+mailing:
+  frontend:
+    activation-url: http://localhost:5173/activate-account

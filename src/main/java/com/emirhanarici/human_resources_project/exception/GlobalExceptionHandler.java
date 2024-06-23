@@ -69,6 +69,32 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(NotFoundException.STATUS).body(errorResponse);
     }
 
+    @ExceptionHandler(InvalidTokenException.class)
+    public ResponseEntity<Object> handleInvalidTokenException(InvalidTokenException ex) {
+        log.error("InvalidTokenException: {}", ex.getMessage());
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .message(ex.getMessage())
+                .statusCode(InvalidTokenException.STATUS.value())
+                .status(InvalidTokenException.STATUS)
+                .build();
+
+        return ResponseEntity.status(InvalidTokenException.STATUS).body(errorResponse);
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<Object> handleTokenExpiredException(TokenExpiredException ex) {
+        log.error("TokenExpiredException: {}", ex.getMessage());
+
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .message(ex.getMessage())
+                .statusCode(TokenExpiredException.STATUS.value())
+                .status(TokenExpiredException.STATUS)
+                .build();
+
+        return ResponseEntity.status(TokenExpiredException.STATUS).body(errorResponse);
+    }
+
 
 
 }

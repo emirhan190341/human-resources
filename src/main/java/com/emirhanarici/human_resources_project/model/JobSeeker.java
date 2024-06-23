@@ -8,14 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -23,7 +18,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JobSeeker extends BaseEntity  {
+public class JobSeeker extends BaseEntity {
 
     private String firstName;
     private String lastName;
@@ -35,10 +30,13 @@ public class JobSeeker extends BaseEntity  {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthYear;
     private String profilePicture;
+    private boolean active;
+    private boolean accountVerified;
+
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "jobSeeker",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<JobSeekerExperience> jobSeekerExperiences = new ArrayList<>();
 
 
