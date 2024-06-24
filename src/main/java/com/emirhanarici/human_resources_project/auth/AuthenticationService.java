@@ -6,6 +6,7 @@ import com.emirhanarici.human_resources_project.email.EmailTemplateName;
 import com.emirhanarici.human_resources_project.exception.InvalidTokenException;
 import com.emirhanarici.human_resources_project.exception.TokenExpiredException;
 import com.emirhanarici.human_resources_project.model.EmailConfirmationToken;
+import com.emirhanarici.human_resources_project.payload.response.ActivationResponse;
 import com.emirhanarici.human_resources_project.repository.EmailConfirmationTokenRepository;
 import com.emirhanarici.human_resources_project.security.JwtService;
 import com.emirhanarici.human_resources_project.exception.AuthenticationFailedException;
@@ -59,7 +60,7 @@ public class AuthenticationService {
                 .build();
 
         if (jobSeekerRepository.existsByEmail(jobSeeker.getEmail())) {
-            throw new EmailAlreadyExistsException("User with email already exists");
+            throw new EmailAlreadyExistsException("User with email already exists. Please login instead or use a different email address.");
         }
 
         var savedUser = jobSeekerRepository.save(jobSeeker);
@@ -73,11 +74,12 @@ public class AuthenticationService {
                 .secure(false)
                 .path("/")
                 .maxAge(cookieExpiry)
+                .sameSite("None")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
         return AuthenticationResponse.builder()
-                .token(jwtToken)
+                .jobSeeker(savedUser)
                 .message("User registered successfully")
                 .id(savedUser.getId())
                 .build();
@@ -99,7 +101,7 @@ public class AuthenticationService {
             var jwtToken = jwtService.generateToken(user);
 
             return AuthenticationResponse.builder()
-                    .token(jwtToken)
+                    .jobSeeker(user)
                     .message("User authenticated successfully")
                     .build();
 
@@ -109,18 +111,22 @@ public class AuthenticationService {
     }
 
     //@Transactional
-    public void activateAccount(String token) throws MessagingException {
+    public ActivationResponse activateAccount(String token) throws MessagingException {
         EmailConfirmationToken savedToken = emailConfirmationTokenRepository.findByToken(token)
-                .orElseThrow(() -> new InvalidTokenException("Invalid token"));
+                .orElseThrow(() -> new InvalidTokenException("Invalid token, please try again."));
 
         if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
             sendValidationEmail(savedToken.getJobSeeker());
-            throw new TokenExpiredException("Activation token has expired. A new token has been sent");
+            throw new TokenExpiredException("Activation token has expired. A new token has been sent.");
         }
 
         savedToken.getJobSeeker().setAccountVerified(true);
         savedToken.setValidatedAt(LocalDateTime.now());
         jobSeekerRepository.save(savedToken.getJobSeeker());
+
+        return ActivationResponse.builder()
+                .message("SUCCESS")
+                .build();
 
     }
 
@@ -130,7 +136,7 @@ public class AuthenticationService {
         var token = EmailConfirmationToken.builder()
                 .token(generatedToken)
                 .createdAt(LocalDateTime.now())
-                .expiresAt(LocalDateTime.now().plusMinutes(2))
+                .expiresAt(LocalDateTime.now().plusMinutes(1))
                 .jobSeeker(user)
                 .build();
 

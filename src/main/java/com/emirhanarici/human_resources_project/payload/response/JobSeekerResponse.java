@@ -28,6 +28,12 @@ public class JobSeekerResponse {
     private String nationalityId;
     private LocalDate birthYear;
     private String profilePicture;
-
+    private String position;
+    private String github;
+    private String linkedin;
+    private String biography;
+    private String website;
+    private List<String> languages;
+    private List<String> skills;
 
 }

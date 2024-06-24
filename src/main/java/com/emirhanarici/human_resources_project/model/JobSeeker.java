@@ -3,6 +3,7 @@ package com.emirhanarici.human_resources_project.model;
 import com.emirhanarici.human_resources_project.common.BaseEntity;
 import com.emirhanarici.human_resources_project.model.role.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +19,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class JobSeeker extends BaseEntity {
 
     private String firstName;
@@ -25,11 +27,22 @@ public class JobSeeker extends BaseEntity {
     private String email;
     private String password;
     private String address;
+    private String country;
+    private String city;
     private String mobilPhone;
     private String nationalityId;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate birthYear;
     private String profilePicture;
+    private String position;
+    private String github;
+    private String linkedin;
+    private String biography;
+    private String website;
+    @ElementCollection
+    private List<String> languages = new ArrayList<>();
+    @ElementCollection
+    private List<String> skills = new ArrayList<>();
     private boolean active;
     private boolean accountVerified;
 

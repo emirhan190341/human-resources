@@ -1,6 +1,7 @@
 package com.emirhanarici.human_resources_project.auth;
 
 import com.emirhanarici.human_resources_project.exception.AuthenticationFailedException;
+import com.emirhanarici.human_resources_project.payload.response.ActivationResponse;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -38,8 +39,9 @@ public class AuthController {
     }
 
     @GetMapping("/activate-account")
-    public void confirmAccount(@RequestParam String token) throws MessagingException {
+    public ResponseEntity<ActivationResponse> confirmAccount(@RequestParam String token) throws MessagingException {
         authenticationService.activateAccount(token);
+        return ResponseEntity.ok(authenticationService.activateAccount(token));
     }
 
 

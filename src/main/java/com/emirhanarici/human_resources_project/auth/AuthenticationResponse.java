@@ -1,5 +1,6 @@
 package com.emirhanarici.human_resources_project.auth;
 
+import com.emirhanarici.human_resources_project.model.JobSeeker;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AuthenticationResponse {
-    private String token;
+    private JobSeeker jobSeeker;
     private String message;
     private Long id;
 }

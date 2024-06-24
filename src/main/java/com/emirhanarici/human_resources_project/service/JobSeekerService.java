@@ -44,13 +44,7 @@ public class JobSeekerService {
 
         JobSeeker jobSeeker = jobSeekerRepository.findById(id).orElseThrow(() -> new JobSeekerNotFoundException("JobSeeker not found with id: " + id));
 
-        jobSeeker.setFirstName(request.getFirstName());
-        jobSeeker.setLastName(request.getLastName());
-        jobSeeker.setAddress(request.getAddress());
-        jobSeeker.setMobilPhone(request.getMobilPhone());
-        jobSeeker.setNationalityId(request.getNationalityId());
-        jobSeeker.setBirthYear(request.getBirthYear());
-        jobSeeker.setProfilePicture(request.getProfilePicture());
+        jobSeeker = JobSeekerMapper.updateJobSeekerFromRequest(jobSeeker, request);
 
         jobSeekerRepository.save(jobSeeker);
 
