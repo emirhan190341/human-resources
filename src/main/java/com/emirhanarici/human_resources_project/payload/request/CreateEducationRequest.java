@@ -1,4 +1,4 @@
-package com.emirhanarici.human_resources_project.payload.response;
+package com.emirhanarici.human_resources_project.payload.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,14 +9,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExperienceResponse {
-    private Long id;
-    private String position;
-    private String companyName;
+public class CreateEducationRequest {
+
+    private String schoolName;
+    private String department;
     private String startDate;
     private String endDate;
     private String country;
     private String city;
     private String description;
-    private Long jobSeekerId;
 }

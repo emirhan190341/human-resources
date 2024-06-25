@@ -38,7 +38,10 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
-                        req -> req.requestMatchers("/api/v1/auth/**","/api/v1/job-seeker-experience/**")
+                        req -> req.requestMatchers("/api/v1/auth/**","/swagger-ui/**",
+                                        "/swagger-ui.html",
+                                        "/v2/api-docs/**",
+                                        "/v3/api-docs/**")
                                 .permitAll()
                                 .requestMatchers("/api/v1/job/**").hasRole("HR")
                                 .anyRequest()

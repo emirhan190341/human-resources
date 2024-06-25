@@ -5,6 +5,12 @@ import com.emirhanarici.human_resources_project.payload.request.CreateJobSeekerR
 import com.emirhanarici.human_resources_project.payload.request.UpdateJobSeekerRequest;
 import com.emirhanarici.human_resources_project.payload.response.JobSeekerResponse;
 import com.emirhanarici.human_resources_project.service.JobSeekerService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +22,7 @@ import java.util.List;
 @RequestMapping("/api/v1/job-seeker")
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "Job Seeker", description = "Job Seeker API for CRUD operations")
 public class JobSeekerController {
 
     //todo: Docker Compose database,relationships,swagger,exception handling,tests,custom exception class

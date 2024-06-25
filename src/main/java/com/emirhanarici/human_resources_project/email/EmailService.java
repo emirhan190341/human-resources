@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -27,17 +26,15 @@ public class EmailService {
     @Async
     public void sendEmail(
             String to,
-            String username,
             EmailTemplateName emailTemplate,
-            String confirmationUrl,
-            String activationCode,
-            String subject
+            String subject,
+            Map<String, Object> properties
     ) throws MessagingException {
         String templateName;
         if (emailTemplate == null) {
-            templateName = "confirm-email";
+            templateName = EmailTemplateName.ACTIVATE_ACCOUNT.getName();
         } else {
-            templateName = emailTemplate.name();
+            templateName = emailTemplate.getName();
         }
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(
@@ -45,10 +42,7 @@ public class EmailService {
                 MULTIPART_MODE_MIXED,
                 UTF_8.name()
         );
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("username", username);
-        properties.put("confirmationUrl", confirmationUrl);
-        properties.put("activation_code", activationCode);
+
 
         Context context = new Context();
         context.setVariables(properties);

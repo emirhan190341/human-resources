@@ -1,6 +1,5 @@
 package com.emirhanarici.human_resources_project.payload.request;
 
-import com.emirhanarici.human_resources_project.model.JobSeekerExperience;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

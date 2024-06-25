@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateJobSeekerExperienceRequest {
+public class CreateExperienceRequest {
 
     private String position;
     private String companyName;

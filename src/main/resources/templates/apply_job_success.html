@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 10px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .button-link a {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Job Application Successful</h1>
+    <p>Dear <span th:text="${userName}"></span>,</p>
+    <p>Thank you for applying for the position of <strong><span th:text="${jobTitle}"></span></strong>. We have received your application and it is currently being reviewed.</p>
+    <p>Here are the details of your application:</p>
+    <ul>
+        <li><strong>Name:</strong> <span th:text="${userName}"></span></li>
+        <li><strong>Email:</strong> <span th:text="${userEmail}"></span></li>
+        <li><strong>Job Title:</strong> <span th:text="${jobTitle}"></span></li>
+        <li><strong>Application Date:</strong> <span th:text="${applicationDate}"></span></li>
+    </ul>
+    <p>We will contact you soon with the next steps.</p>
+    <p>Best regards,</p>
+    <p>The Recruitment Team</p>
+    <!--    <div class="button-link">-->
+    <!--        <a th:href="${trackingLink}">Track Application Status</a>-->
+    <!--    </div>-->
+</div>
+</body>
+</html>

@@ -1,15 +1,15 @@
 package com.emirhanarici.human_resources_project.mapper;
 
-import com.emirhanarici.human_resources_project.model.JobSeekerExperience;
-import com.emirhanarici.human_resources_project.payload.request.CreateJobSeekerExperienceRequest;
-import com.emirhanarici.human_resources_project.payload.response.JobSeekerExperienceResponse;
+import com.emirhanarici.human_resources_project.model.Experience;
+import com.emirhanarici.human_resources_project.payload.request.CreateExperienceRequest;
+import com.emirhanarici.human_resources_project.payload.response.ExperienceResponse;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
-public class JobSeekerExperienceMapper {
+public class ExperienceMapper {
 
-    public JobSeekerExperience mapToJobSeekerExperience(CreateJobSeekerExperienceRequest request) {
-        return JobSeekerExperience.builder()
+    public Experience mapToJobSeekerExperience(CreateExperienceRequest request) {
+        return Experience.builder()
                 .position(request.getPosition())
                 .companyName(request.getCompanyName())
                 .startDate(request.getStartDate())
@@ -20,17 +20,17 @@ public class JobSeekerExperienceMapper {
                 .build();
     }
 
-    public JobSeekerExperienceResponse mapToJobSeekerExperienceResponse(JobSeekerExperience jobSeekerExperience) {
-        return JobSeekerExperienceResponse.builder()
-                .id(jobSeekerExperience.getId())
-                .position(jobSeekerExperience.getPosition())
-                .companyName(jobSeekerExperience.getCompanyName())
-                .startDate(jobSeekerExperience.getStartDate())
-                .endDate(jobSeekerExperience.getEndDate())
-                .country(jobSeekerExperience.getCountry())
-                .city(jobSeekerExperience.getCity())
-                .description(jobSeekerExperience.getDescription())
-                .jobSeekerId(jobSeekerExperience.getJobSeeker().getId())
+    public ExperienceResponse mapToJobSeekerExperienceResponse(Experience experience) {
+        return ExperienceResponse.builder()
+                .id(experience.getId())
+                .position(experience.getPosition())
+                .companyName(experience.getCompanyName())
+                .startDate(experience.getStartDate())
+                .endDate(experience.getEndDate())
+                .country(experience.getCountry())
+                .city(experience.getCity())
+                .description(experience.getDescription())
+                .jobSeekerId(experience.getJobSeeker().getId())
                 .build();
     }
 }

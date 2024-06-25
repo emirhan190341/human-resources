@@ -6,13 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ExperienceResponse {
+@Builder
+public class EducationResponse {
+
     private Long id;
-    private String position;
-    private String companyName;
+    private String schoolName;
+    private String department;
     private String startDate;
     private String endDate;
     private String country;

@@ -3,6 +3,7 @@ package com.emirhanarici.human_resources_project.model;
 import com.emirhanarici.human_resources_project.common.BaseEntity;
 import com.emirhanarici.human_resources_project.model.role.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -50,7 +51,12 @@ public class JobSeeker extends BaseEntity {
     private Role role;
 
     @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<JobSeekerExperience> jobSeekerExperiences = new ArrayList<>();
+    @JsonIgnore
+    private List<Experience> experiences;
+
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Education> educations;
 
 
 }

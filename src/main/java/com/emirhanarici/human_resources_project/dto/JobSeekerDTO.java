@@ -1,6 +1,6 @@
 package com.emirhanarici.human_resources_project.dto;
 
-import com.emirhanarici.human_resources_project.model.JobSeekerExperience;
+import com.emirhanarici.human_resources_project.model.Experience;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,6 +23,6 @@ public class JobSeekerDTO {
     private String nationalityId;
     private String birthYear;
     private String profilePicture;
-    private List<JobSeekerExperience> jobSeekerExperiences;
+    private List<Experience> experiences;
 
 }

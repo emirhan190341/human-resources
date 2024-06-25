@@ -27,9 +27,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.beans.Transient;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -110,7 +111,7 @@ public class AuthenticationService {
         }
     }
 
-    //@Transactional
+    @Transactional
     public ActivationResponse activateAccount(String token) throws MessagingException {
         EmailConfirmationToken savedToken = emailConfirmationTokenRepository.findByToken(token)
                 .orElseThrow(() -> new InvalidTokenException("Invalid token, please try again."));
@@ -128,6 +129,22 @@ public class AuthenticationService {
                 .message("SUCCESS")
                 .build();
 
+    }
+
+
+    public AuthenticationResponse logout(HttpServletResponse response) {
+        ResponseCookie cookie = ResponseCookie.from("accessToken", "")
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(0)
+                .sameSite("None")
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+
+        return AuthenticationResponse.builder()
+                .message("User logged out successfully")
+                .build();
     }
 
     private String generateAndSaveActivationToken(JobSeeker user) {
@@ -148,14 +165,18 @@ public class AuthenticationService {
     private void sendValidationEmail(JobSeeker user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
 
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("username", user.getFirstName() + " " + user.getLastName());
+        properties.put("confirmationUrl", activationUrl);
+        properties.put("activation_code", newToken);
+
         emailService.sendEmail(
                 user.getEmail(),
-                user.getFirstName() + " " + user.getLastName(),
                 EmailTemplateName.ACTIVATE_ACCOUNT,
-                activationUrl,
-                newToken,
-                "Account activation"
+                "Account activation",
+                properties
         );
+
     }
 
     private String generateActivationCode(int length) {
