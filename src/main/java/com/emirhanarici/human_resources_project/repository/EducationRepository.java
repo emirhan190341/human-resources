@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface EducationRepository extends JpaRepository<Education, Long>{
 
+
     Optional<List<Education>> findAllByJobSeekerId(Long jobSeekerId);
 }

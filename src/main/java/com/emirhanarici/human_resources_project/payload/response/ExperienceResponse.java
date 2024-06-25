@@ -19,4 +19,5 @@ public class ExperienceResponse {
     private String city;
     private String description;
     private Long jobSeekerId;
+
 }

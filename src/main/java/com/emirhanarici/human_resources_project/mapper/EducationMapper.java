@@ -19,6 +19,7 @@ public class EducationMapper {
                 .build();
     }
 
+
     public static EducationResponse mapToJobSeekerEducationResponse(Education education) {
 
         return EducationResponse.builder()

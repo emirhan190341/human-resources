@@ -58,6 +58,7 @@ public class AuthController {
         }
     }
 
+
     @PostMapping("/logout")
     @Operation(summary = "Logout", description = "Logs out a user and deletes the JWT token.",
             responses = {

@@ -26,6 +26,8 @@ public class EducationController {
         return CustomResponse.created(educationService.createJobSeekerEducation(request, jobSeekerId));
     }
 
+
+
     @GetMapping("/{jobSeekerId}")
     public CustomResponse<List<EducationResponse>> getJobSeekerEducationsByJobSeekerId(@PathVariable Long jobSeekerId) {
         log.info("JobSeekerEducationController.getJobSeekerEducation jobSeekerId: {}", jobSeekerId);

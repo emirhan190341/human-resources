@@ -26,4 +26,5 @@ public class Experience extends BaseEntity {
     @JoinColumn(name = "job_seeker_id",nullable = false)
     private JobSeeker jobSeeker;
 
+
 }

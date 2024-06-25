@@ -27,4 +27,5 @@ public class Education extends BaseEntity {
     private JobSeeker jobSeeker;
 
 
+
 }
