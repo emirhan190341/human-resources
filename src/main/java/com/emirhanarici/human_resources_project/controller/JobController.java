@@ -19,8 +19,10 @@ public class JobController {
 
     private final JobService jobService;
 
+    //TODO: Add pagination to get all jobs
+
     @PostMapping
-    @PreAuthorize("hasRole('HR')")
+//    @PreAuthorize("hasRole('HR')")
     public CustomResponse<JobResponse> createJob(@RequestBody CreateJobRequest request) {
         log.info("JobController.createJob request: {}", request);
         return CustomResponse.created(jobService.createJob(request));

@@ -4,6 +4,7 @@ import com.emirhanarici.human_resources_project.payload.CustomResponse;
 import com.emirhanarici.human_resources_project.payload.request.CreateExperienceRequest;
 import com.emirhanarici.human_resources_project.payload.response.ExperienceResponse;
 import com.emirhanarici.human_resources_project.service.ExperienceService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +28,9 @@ public class ExperienceController {
     }
 
     @GetMapping("/{jobSeekerId}")
-    public CustomResponse<List<ExperienceResponse>> getJobSeekerExperiencesByJobSeekerId(@PathVariable Long jobSeekerId) {
+    public CustomResponse<List<ExperienceResponse>> getJobSeekerExperiencesByJobSeekerId(@PathVariable Long jobSeekerId, HttpServletRequest request) {
         log.info("JobSeekerExperienceController.getJobSeekerExperience jobSeekerId: {}", jobSeekerId);
-        return CustomResponse.ok(experienceService.getJobSeekerExperiencesByJobSeekerId(jobSeekerId));
+        return CustomResponse.ok(experienceService.getJobSeekerExperiencesByJobSeekerId(jobSeekerId, request));
     }
 
 }
