@@ -46,10 +46,10 @@ public class AuthController {
                     @ApiResponse(responseCode = "401", description = "Invalid credentials",
                             content = @Content(schema = @Schema(implementation = Map.class)))
             })
-    public ResponseEntity<?> login(@RequestBody @Valid AuthenticationRequest request) {
+    public ResponseEntity<?> login(@RequestBody @Valid AuthenticationRequest request, HttpServletResponse response) {
         try {
-            AuthenticationResponse response = authenticationService.login(request);
-            return ResponseEntity.ok(response);
+            AuthenticationResponse rs = authenticationService.login(request, response);
+            return ResponseEntity.ok(rs);
         } catch (AuthenticationFailedException e) {
 
             Map<String, String> errorResponse = new HashMap<>();

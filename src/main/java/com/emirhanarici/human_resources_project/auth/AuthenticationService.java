@@ -75,7 +75,7 @@ public class AuthenticationService {
                 .secure(false)
                 .path("/")
                 .maxAge(cookieExpiry)
-                .sameSite("None")
+                .sameSite("Strict")
                 .build();
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
@@ -87,7 +87,7 @@ public class AuthenticationService {
     }
 
 
-    public AuthenticationResponse login(AuthenticationRequest request) {
+    public AuthenticationResponse login(AuthenticationRequest request,HttpServletResponse response) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -100,6 +100,15 @@ public class AuthenticationService {
                     .orElseThrow();
 
             var jwtToken = jwtService.generateToken(user);
+
+            ResponseCookie cookie = ResponseCookie.from("accessToken", jwtToken)
+                    .httpOnly(true)
+                    .secure(false)
+                    .path("/")
+                    .maxAge(cookieExpiry)
+                    .sameSite("Strict")
+                    .build();
+            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
             return AuthenticationResponse.builder()
                     .jobSeeker(user)
