@@ -1,5 +1,6 @@
 package com.emirhanarici.human_resources_project.common;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,10 +26,12 @@ public abstract class BaseEntity {
     private Long id;
 
     @CreationTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createdAt;
 
 
     @UpdateTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime updatedAt;
 
 

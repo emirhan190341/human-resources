@@ -21,6 +21,8 @@ public class JobSeekerResponse {
     private String email;
     private String password;
     private String address;
+    private String country;
+    private String city;
     private String mobilPhone;
     private String nationalityId;
     private LocalDate birthYear;

@@ -43,7 +43,7 @@ public class SecurityConfig {
                                         "/v2/api-docs/**",
                                         "/v3/api-docs/**")
                                 .permitAll()
-                                .requestMatchers("/api/v1/job/**").hasRole("HR")
+//                                .requestMatchers("/api/v1/job/**").hasRole("HR")
                                 .anyRequest()
                                 .authenticated()
                 ).userDetailsService(userDetailsServiceImpl)

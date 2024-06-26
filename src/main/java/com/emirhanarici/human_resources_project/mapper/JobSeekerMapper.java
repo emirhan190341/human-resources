@@ -38,6 +38,8 @@ public class JobSeekerMapper {
                 .email(jobSeeker.getEmail())
                 .password(jobSeeker.getPassword())
                 .address(jobSeeker.getAddress())
+                .city(jobSeeker.getCity())
+                .country(jobSeeker.getCountry())
                 .mobilPhone(jobSeeker.getMobilPhone())
                 .nationalityId(jobSeeker.getNationalityId())
                 .birthYear(jobSeeker.getBirthYear())
