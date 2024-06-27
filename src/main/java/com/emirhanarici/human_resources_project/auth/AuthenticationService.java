@@ -2,18 +2,17 @@ package com.emirhanarici.human_resources_project.auth;
 
 
 import com.emirhanarici.human_resources_project.email.EmailService;
-import com.emirhanarici.human_resources_project.email.EmailTemplateName;
+import com.emirhanarici.human_resources_project.exception.AuthenticationFailedException;
+import com.emirhanarici.human_resources_project.exception.EmailAlreadyExistsException;
 import com.emirhanarici.human_resources_project.exception.InvalidTokenException;
 import com.emirhanarici.human_resources_project.exception.TokenExpiredException;
 import com.emirhanarici.human_resources_project.model.EmailConfirmationToken;
-import com.emirhanarici.human_resources_project.payload.response.ActivationResponse;
-import com.emirhanarici.human_resources_project.repository.EmailConfirmationTokenRepository;
-import com.emirhanarici.human_resources_project.security.JwtService;
-import com.emirhanarici.human_resources_project.exception.AuthenticationFailedException;
-import com.emirhanarici.human_resources_project.exception.EmailAlreadyExistsException;
 import com.emirhanarici.human_resources_project.model.JobSeeker;
 import com.emirhanarici.human_resources_project.model.role.Role;
+import com.emirhanarici.human_resources_project.payload.response.ActivationResponse;
+import com.emirhanarici.human_resources_project.repository.EmailConfirmationTokenRepository;
 import com.emirhanarici.human_resources_project.repository.JobSeekerRepository;
+import com.emirhanarici.human_resources_project.security.JwtService;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
@@ -21,16 +20,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -43,12 +40,16 @@ public class AuthenticationService {
     private final EmailService emailService;
     private final EmailConfirmationTokenRepository tokenRepository;
     private final EmailConfirmationTokenRepository emailConfirmationTokenRepository;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Value("${jwt.cookieExpiry}")
     private int cookieExpiry;
 
     @Value("${mailing.frontend.activation-url}")
     private String activationUrl;
+
+    @Value("${spring.kafka.topic.email-validation}")
+    private String emailValidationTopic;
 
     public AuthenticationResponse register(AuthenticationRequest request, HttpServletResponse response) throws MessagingException {
 
@@ -66,7 +67,9 @@ public class AuthenticationService {
 
         var savedUser = jobSeekerRepository.save(jobSeeker);
 
-        sendValidationEmail(savedUser);
+//        sendValidationEmail(savedUser);
+
+        kafkaTemplate.send(emailValidationTopic, savedUser);
 
         var jwtToken = jwtService.generateToken(savedUser);
 
@@ -87,7 +90,7 @@ public class AuthenticationService {
     }
 
 
-    public AuthenticationResponse login(AuthenticationRequest request,HttpServletResponse response) {
+    public AuthenticationResponse login(AuthenticationRequest request, HttpServletResponse response) {
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -126,7 +129,7 @@ public class AuthenticationService {
                 .orElseThrow(() -> new InvalidTokenException("Invalid token, please try again."));
 
         if (LocalDateTime.now().isAfter(savedToken.getExpiresAt())) {
-            sendValidationEmail(savedToken.getJobSeeker());
+            kafkaTemplate.send(emailValidationTopic, savedToken.getJobSeeker());
             throw new TokenExpiredException("Activation token has expired. A new token has been sent.");
         }
 
@@ -154,52 +157,6 @@ public class AuthenticationService {
         return AuthenticationResponse.builder()
                 .message("User logged out successfully")
                 .build();
-    }
-
-    private String generateAndSaveActivationToken(JobSeeker user) {
-
-        String generatedToken = generateActivationCode(6);
-        var token = EmailConfirmationToken.builder()
-                .token(generatedToken)
-                .createdAt(LocalDateTime.now())
-                .expiresAt(LocalDateTime.now().plusMinutes(1))
-                .jobSeeker(user)
-                .build();
-
-        tokenRepository.save(token);
-
-        return generatedToken;
-    }
-
-    private void sendValidationEmail(JobSeeker user) throws MessagingException {
-        var newToken = generateAndSaveActivationToken(user);
-
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("username", user.getFirstName() + " " + user.getLastName());
-        properties.put("confirmationUrl", activationUrl);
-        properties.put("activation_code", newToken);
-
-        emailService.sendEmail(
-                user.getEmail(),
-                EmailTemplateName.ACTIVATE_ACCOUNT,
-                "Account activation",
-                properties
-        );
-
-    }
-
-    private String generateActivationCode(int length) {
-        String characters = "0123456789";
-        StringBuilder codeBuilder = new StringBuilder();
-
-        SecureRandom secureRandom = new SecureRandom();
-
-        for (int i = 0; i < length; i++) {
-            int randomIndex = secureRandom.nextInt(characters.length());
-            codeBuilder.append(characters.charAt(randomIndex));
-        }
-
-        return codeBuilder.toString();
     }
 
 
