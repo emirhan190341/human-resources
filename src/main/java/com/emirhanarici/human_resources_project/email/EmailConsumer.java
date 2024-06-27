@@ -26,9 +26,8 @@ public class EmailConsumer {
     @Value("${mailing.frontend.activation-url}")
     private String activationUrl;
 
-    @KafkaListener(topics = "${spring.kafka.topic.email-validation}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "${spring.kafka.topic.email-validation}", groupId = "email-group")
     public void listen(@Payload JobSeeker jobSeeker) throws MessagingException {
-        // Logic to send email validation
         sendValidationEmail(jobSeeker);
     }
 

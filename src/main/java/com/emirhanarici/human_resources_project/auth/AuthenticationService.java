@@ -67,9 +67,7 @@ public class AuthenticationService {
 
         var savedUser = jobSeekerRepository.save(jobSeeker);
 
-//        sendValidationEmail(savedUser);
-
-        kafkaTemplate.send(emailValidationTopic, savedUser);
+        kafkaTemplate.send(emailValidationTopic,"key-1", savedUser);
 
         var jwtToken = jwtService.generateToken(savedUser);
 
