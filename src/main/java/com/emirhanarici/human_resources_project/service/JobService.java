@@ -17,6 +17,8 @@ import java.util.List;
 @Slf4j
 public class JobService {
 
+    //TODO: How to show recent added job? Redis,pageable,sort, repository method?
+
     private final JobRepository jobRepository;
 
 
