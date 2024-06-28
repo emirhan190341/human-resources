@@ -8,13 +8,18 @@ import com.emirhanarici.human_resources_project.payload.request.UpdateJobSeekerR
 import com.emirhanarici.human_resources_project.payload.response.JobSeekerResponse;
 import com.emirhanarici.human_resources_project.repository.JobSeekerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class JobSeekerService {
+
+    private final com.emirhanarici.human_resources_project.mapstruct.JobSeekerMapper jobSeekerMapperStruct;
 
     private final JobSeekerRepository jobSeekerRepository;
 
@@ -40,16 +45,18 @@ public class JobSeekerService {
         return JobSeekerMapper.mapToJobSeekerResponse(jobSeeker);
     }
 
+    @Transactional
     public JobSeekerResponse updateJobSeeker(Long id, UpdateJobSeekerRequest request) {
+        JobSeeker jobSeeker = jobSeekerRepository.findById(id)
+                .orElseThrow(() -> new JobSeekerNotFoundException("JobSeeker not found with id: " + id));
 
-        JobSeeker jobSeeker = jobSeekerRepository.findById(id).orElseThrow(() -> new JobSeekerNotFoundException("JobSeeker not found with id: " + id));
-
-        jobSeeker = JobSeekerMapper.updateJobSeekerFromRequest(jobSeeker, request);
+        log.info("Before update: " + jobSeeker);
+        jobSeekerMapperStruct.updateJobSeekerFromRequest(request, jobSeeker);
+        log.info("After update: " + jobSeeker);
 
         jobSeekerRepository.save(jobSeeker);
 
         return JobSeekerMapper.mapToJobSeekerResponse(jobSeeker);
-
     }
 
     public String deleteJobSeeker(Long id) {
