@@ -31,21 +31,6 @@ public class EmailConsumer {
         sendValidationEmail(jobSeeker);
     }
 
-    private String generateAndSaveActivationToken(JobSeeker user) {
-
-        String generatedToken = generateActivationCode(6);
-        var token = EmailConfirmationToken.builder()
-                .token(generatedToken)
-                .createdAt(LocalDateTime.now())
-                .expiresAt(LocalDateTime.now().plusMinutes(1))
-                .jobSeeker(user)
-                .build();
-
-        tokenRepository.save(token);
-
-        return generatedToken;
-    }
-
     private void sendValidationEmail(JobSeeker user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
 
@@ -62,6 +47,23 @@ public class EmailConsumer {
         );
 
     }
+
+    private String generateAndSaveActivationToken(JobSeeker user) {
+
+        String generatedToken = generateActivationCode(6);
+        var token = EmailConfirmationToken.builder()
+                .token(generatedToken)
+                .createdAt(LocalDateTime.now())
+                .expiresAt(LocalDateTime.now().plusMinutes(1))
+                .jobSeeker(user)
+                .build();
+
+        tokenRepository.save(token);
+
+        return generatedToken;
+    }
+
+
 
     private String generateActivationCode(int length) {
         String characters = "0123456789";

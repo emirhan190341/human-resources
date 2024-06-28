@@ -37,16 +37,11 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final EmailService emailService;
-    private final EmailConfirmationTokenRepository tokenRepository;
     private final EmailConfirmationTokenRepository emailConfirmationTokenRepository;
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
     @Value("${jwt.cookieExpiry}")
     private int cookieExpiry;
-
-    @Value("${mailing.frontend.activation-url}")
-    private String activationUrl;
 
     @Value("${spring.kafka.topic.email-validation}")
     private String emailValidationTopic;
@@ -65,20 +60,13 @@ public class AuthenticationService {
             throw new EmailAlreadyExistsException("User with email already exists. Please login instead or use a different email address.");
         }
 
-        var savedUser = jobSeekerRepository.save(jobSeeker);
+        JobSeeker savedUser = jobSeekerRepository.save(jobSeeker);
 
         kafkaTemplate.send(emailValidationTopic,"key-1", savedUser);
 
         var jwtToken = jwtService.generateToken(savedUser);
 
-        ResponseCookie cookie = ResponseCookie.from("accessToken", jwtToken)
-                .httpOnly(true)
-                .secure(false)
-                .path("/")
-                .maxAge(cookieExpiry)
-                .sameSite("Strict")
-                .build();
-        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        setCookie(response, jwtToken);
 
         return AuthenticationResponse.builder()
                 .jobSeeker(savedUser)
@@ -102,14 +90,7 @@ public class AuthenticationService {
 
             var jwtToken = jwtService.generateToken(user);
 
-            ResponseCookie cookie = ResponseCookie.from("accessToken", jwtToken)
-                    .httpOnly(true)
-                    .secure(false)
-                    .path("/")
-                    .maxAge(cookieExpiry)
-                    .sameSite("Strict")
-                    .build();
-            response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+            setCookie(response, jwtToken);
 
             return AuthenticationResponse.builder()
                     .jobSeeker(user)
@@ -157,5 +138,15 @@ public class AuthenticationService {
                 .build();
     }
 
+    private void setCookie(HttpServletResponse response, String jwtToken) {
+        ResponseCookie cookie = ResponseCookie.from("accessToken", jwtToken)
+                .httpOnly(true)
+                .secure(false)
+                .path("/")
+                .maxAge(cookieExpiry)
+                .sameSite("Strict")
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+    }
 
 }
