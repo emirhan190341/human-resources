@@ -3,35 +3,26 @@ package com.emirhanarici.human_resources_project.mapper;
 import com.emirhanarici.human_resources_project.model.Experience;
 import com.emirhanarici.human_resources_project.payload.request.CreateExperienceRequest;
 import com.emirhanarici.human_resources_project.payload.response.ExperienceResponse;
-import lombok.experimental.UtilityClass;
+import org.mapstruct.*;
 
-@UtilityClass
-public class ExperienceMapper {
-
-    public Experience mapToJobSeekerExperience(CreateExperienceRequest request) {
-        return Experience.builder()
-                .position(request.getPosition())
-                .companyName(request.getCompanyName())
-                .startDate(request.getStartDate())
-                .endDate(request.getEndDate())
-                .country(request.getCountry())
-                .city(request.getCity())
-                .description(request.getDescription())
-                .build();
-    }
+@Mapper(componentModel = "spring",
+        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
+        unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface ExperienceMapper {
 
 
-    public ExperienceResponse mapToJobSeekerExperienceResponse(Experience experience) {
-        return ExperienceResponse.builder()
-                .id(experience.getId())
-                .position(experience.getPosition())
-                .companyName(experience.getCompanyName())
-                .startDate(experience.getStartDate())
-                .endDate(experience.getEndDate())
-                .country(experience.getCountry())
-                .city(experience.getCity())
-                .description(experience.getDescription())
-                .jobSeekerId(experience.getJobSeeker().getId())
-                .build();
-    }
+    Experience mapToExperience(CreateExperienceRequest request);
+    @Mappings({
+            @Mapping(source = "jobSeeker.id", target = "jobSeekerId"),
+            @Mapping(source = "id", target = "id"),
+            @Mapping(source = "position", target = "position"),
+            @Mapping(source = "companyName", target = "companyName"),
+            @Mapping(source = "startDate", target = "startDate"),
+            @Mapping(source = "endDate", target = "endDate"),
+            @Mapping(source = "country", target = "country"),
+            @Mapping(source = "city", target = "city"),
+            @Mapping(source = "description", target = "description")
+    })
+    ExperienceResponse mapToExperienceResponse(Experience experience);
+
 }

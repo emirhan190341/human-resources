@@ -1,9 +1,9 @@
 package com.emirhanarici.human_resources_project.service;
 
 import com.emirhanarici.human_resources_project.exception.JobSeekerNotFoundException;
+
 import com.emirhanarici.human_resources_project.mapper.JobSeekerMapper;
 import com.emirhanarici.human_resources_project.model.JobSeeker;
-import com.emirhanarici.human_resources_project.payload.request.CreateJobSeekerRequest;
 import com.emirhanarici.human_resources_project.payload.request.UpdateJobSeekerRequest;
 import com.emirhanarici.human_resources_project.payload.response.JobSeekerResponse;
 import com.emirhanarici.human_resources_project.repository.JobSeekerRepository;
@@ -19,30 +19,20 @@ import java.util.List;
 @Slf4j
 public class JobSeekerService {
 
-    private final com.emirhanarici.human_resources_project.mapstruct.JobSeekerMapper jobSeekerMapperStruct;
-
+    private final JobSeekerMapper jobSeekerMapper;
     private final JobSeekerRepository jobSeekerRepository;
-
-    public JobSeekerResponse createJobSeeker(CreateJobSeekerRequest request) {
-
-        JobSeeker jobSeeker = JobSeekerMapper.mapToJobSeeker(request);
-
-        jobSeekerRepository.save(jobSeeker);
-
-        return JobSeekerMapper.mapToJobSeekerResponse(jobSeeker);
-    }
-
 
     public List<JobSeekerResponse> getAllJobSeekers() {
         List<JobSeeker> jobSeekers = jobSeekerRepository.findAll();
+
         return jobSeekers.stream()
-                .map(JobSeekerMapper::mapToJobSeekerResponse)
+                .map(jobSeekerMapper::mapToJobSeekerResponse)
                 .toList();
     }
 
     public JobSeekerResponse getJobSeekerById(Long id) {
         JobSeeker jobSeeker = jobSeekerRepository.findById(id).orElseThrow(() -> new JobSeekerNotFoundException("JobSeeker not found with id: " + id));
-        return JobSeekerMapper.mapToJobSeekerResponse(jobSeeker);
+        return jobSeekerMapper.mapToJobSeekerResponse(jobSeeker);
     }
 
     @Transactional
@@ -50,13 +40,13 @@ public class JobSeekerService {
         JobSeeker jobSeeker = jobSeekerRepository.findById(id)
                 .orElseThrow(() -> new JobSeekerNotFoundException("JobSeeker not found with id: " + id));
 
-        log.info("Before update: " + jobSeeker);
-        jobSeekerMapperStruct.updateJobSeekerFromRequest(request, jobSeeker);
-        log.info("After update: " + jobSeeker);
+        log.info("Before update: {}", jobSeeker);
+        jobSeekerMapper.updateJobSeekerFromRequest(request, jobSeeker);
+        log.info("After update: {}", jobSeeker);
 
         jobSeekerRepository.save(jobSeeker);
 
-        return JobSeekerMapper.mapToJobSeekerResponse(jobSeeker);
+        return jobSeekerMapper.mapToJobSeekerResponse(jobSeeker);
     }
 
     public String deleteJobSeeker(Long id) {

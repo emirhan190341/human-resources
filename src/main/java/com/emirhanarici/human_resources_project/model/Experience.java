@@ -2,16 +2,14 @@ package com.emirhanarici.human_resources_project.model;
 
 import com.emirhanarici.human_resources_project.common.BaseEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Entity
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(exclude = "jobSeeker")
 public class Experience extends BaseEntity {
 
     private String position;

@@ -18,7 +18,6 @@ public class ExperienceResponse {
     private String country;
     private String city;
     private String description;
-    private String cookie;
     private Long jobSeekerId;
 
 }

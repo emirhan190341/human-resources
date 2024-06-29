@@ -18,5 +18,4 @@ public class CreateExperienceRequest {
     private String country;
     private String city;
     private String description;
-    private Long jobSeekerId;
 }

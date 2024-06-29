@@ -1,10 +1,9 @@
 package com.emirhanarici.human_resources_project.service;
 
 import com.emirhanarici.human_resources_project.exception.EducationNotFoundException;
-import com.emirhanarici.human_resources_project.exception.ExperienceNotFoundException;
+
 import com.emirhanarici.human_resources_project.mapper.EducationMapper;
 import com.emirhanarici.human_resources_project.model.Education;
-import com.emirhanarici.human_resources_project.model.Experience;
 import com.emirhanarici.human_resources_project.model.JobSeeker;
 import com.emirhanarici.human_resources_project.payload.request.CreateEducationRequest;
 import com.emirhanarici.human_resources_project.payload.response.EducationResponse;
@@ -22,18 +21,19 @@ public class EducationService {
 
     private final EducationRepository educationRepository;
     private final JobSeekerRepository jobSeekerRepository;
+    private final EducationMapper educationMapper;
 
 
     public EducationResponse createJobSeekerEducation(CreateEducationRequest request, Long jobSeekerId) {
         JobSeeker jobSeeker = jobSeekerRepository.findById(jobSeekerId)
                 .orElseThrow(() -> new RuntimeException("JobSeeker not found"));
 
-        Education education = EducationMapper.mapToJobSeekerEducation(request);
+        Education education = educationMapper.mapToEducation(request);
 
         education.setJobSeeker(jobSeeker);
         education = educationRepository.save(education);
 
-        return EducationMapper.mapToJobSeekerEducationResponse(education);
+        return educationMapper.mapToEducationResponse(education);
     }
 
     public List<EducationResponse> getJobSeekerEducationsByJobSeekerId(Long jobSeekerId) {
@@ -42,7 +42,7 @@ public class EducationService {
                 .orElseThrow(() -> new EducationNotFoundException("Education not found"));
 
         return experience.stream()
-                .map(EducationMapper::mapToJobSeekerEducationResponse)
+                .map(educationMapper::mapToEducationResponse)
                 .collect(Collectors.toList());
     }
 }

@@ -20,26 +20,27 @@ public class JobService {
     //TODO: How to show recent added job? Redis,pageable,sort, repository method?
 
     private final JobRepository jobRepository;
+    private final JobMapper jobMapper;
 
 
     public JobResponse createJob(CreateJobRequest request) {
 
-        Job job = jobRepository.save(JobMapper.mapToJob(request));
+        Job job = jobRepository.save(jobMapper.mapToJob(request));
         System.out.println(job.getActive());
-        return JobMapper.mapToJobResponse(job);
+        return jobMapper.mapToJobResponse(job);
 
     }
 
     public List<JobResponse> getAllJobs() {
         List<Job> jobs = jobRepository.findAll();
         return jobs.stream()
-                .map(JobMapper::mapToJobResponse)
+                .map(jobMapper::mapToJobResponse)
                 .toList();
     }
 
     public JobResponse getJobById(String id) {
         Job job = jobRepository.findById(id).orElseThrow(() -> new JobNotFoundException("Job not found with id: " + id));
-        return JobMapper.mapToJobResponse(job);
+        return jobMapper.mapToJobResponse(job);
     }
 
     public JobResponse updateJob(String id, CreateJobRequest request) {
@@ -53,7 +54,7 @@ public class JobService {
         job.setActivationTime(request.getActivationTime());
         job.setOffTime(request.getOffTime());
         jobRepository.save(job);
-        return JobMapper.mapToJobResponse(job);
+        return jobMapper.mapToJobResponse(job);
     }
 
     public String deleteJob(String id) {

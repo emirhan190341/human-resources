@@ -24,12 +24,6 @@ public class JobSeekerController {
 
     private final JobSeekerService jobSeekerService;
 
-    @PostMapping()
-    public CustomResponse<JobSeekerResponse> createJobSeeker(@RequestBody @Valid CreateJobSeekerRequest request) {
-        log.info("JobSeekerController.createJobSeeker request: {}", request);
-        return CustomResponse.created(jobSeekerService.createJobSeeker(request));
-    }
-
     @GetMapping()
     public CustomResponse<List<JobSeekerResponse>> getAllJobSeekers() {
         log.info("JobSeekerController.getAllJobSeekers");

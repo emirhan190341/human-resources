@@ -28,9 +28,9 @@ public class ExperienceController {
     }
 
     @GetMapping("/{jobSeekerId}")
-    public CustomResponse<List<ExperienceResponse>> getJobSeekerExperiencesByJobSeekerId(@PathVariable Long jobSeekerId, HttpServletRequest request) {
+    public CustomResponse<List<ExperienceResponse>> getJobSeekerExperiencesByJobSeekerId(@PathVariable Long jobSeekerId) {
         log.info("JobSeekerExperienceController.getJobSeekerExperience jobSeekerId: {}", jobSeekerId);
-        return CustomResponse.ok(experienceService.getJobSeekerExperiencesByJobSeekerId(jobSeekerId, request));
+        return CustomResponse.ok(experienceService.getJobSeekerExperiencesByJobSeekerId(jobSeekerId));
     }
 
 }
