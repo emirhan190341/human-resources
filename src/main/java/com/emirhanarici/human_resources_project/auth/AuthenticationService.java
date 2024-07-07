@@ -1,14 +1,13 @@
 package com.emirhanarici.human_resources_project.auth;
 
 
-import com.emirhanarici.human_resources_project.email.EmailService;
 import com.emirhanarici.human_resources_project.exception.AuthenticationFailedException;
 import com.emirhanarici.human_resources_project.exception.EmailAlreadyExistsException;
 import com.emirhanarici.human_resources_project.exception.InvalidTokenException;
 import com.emirhanarici.human_resources_project.exception.TokenExpiredException;
 import com.emirhanarici.human_resources_project.model.EmailConfirmationToken;
 import com.emirhanarici.human_resources_project.model.JobSeeker;
-import com.emirhanarici.human_resources_project.model.role.Role;
+import com.emirhanarici.human_resources_project.model.enums.Role;
 import com.emirhanarici.human_resources_project.payload.response.ActivationResponse;
 import com.emirhanarici.human_resources_project.repository.EmailConfirmationTokenRepository;
 import com.emirhanarici.human_resources_project.repository.JobSeekerRepository;

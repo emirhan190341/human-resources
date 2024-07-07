@@ -1,10 +1,7 @@
 package com.emirhanarici.human_resources_project.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,5 +42,8 @@ public class Job {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate offTime;
+
+    @OneToMany(mappedBy = "job", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ApplyJob> applyJobs;
 
 }

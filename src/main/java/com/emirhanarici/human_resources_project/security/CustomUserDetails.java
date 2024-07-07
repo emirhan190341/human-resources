@@ -1,8 +1,7 @@
 package com.emirhanarici.human_resources_project.security;
 
 import com.emirhanarici.human_resources_project.model.JobSeeker;
-import com.emirhanarici.human_resources_project.model.role.Role;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.emirhanarici.human_resources_project.model.enums.Role;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 

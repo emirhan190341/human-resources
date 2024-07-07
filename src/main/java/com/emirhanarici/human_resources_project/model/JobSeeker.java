@@ -1,7 +1,8 @@
 package com.emirhanarici.human_resources_project.model;
 
+
 import com.emirhanarici.human_resources_project.common.BaseEntity;
-import com.emirhanarici.human_resources_project.model.role.Role;
+import com.emirhanarici.human_resources_project.model.enums.Role;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -19,7 +20,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-@ToString(exclude = {"experiences", "educations"})
+@ToString(exclude = {"experiences", "educations", "applyJobs"})
 public class JobSeeker extends BaseEntity {
 
     private String firstName;
@@ -56,6 +57,10 @@ public class JobSeeker extends BaseEntity {
     @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Education> educations;
+
+    @OneToMany(mappedBy = "jobSeeker", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<ApplyJob> applyJobs;
 
 
 

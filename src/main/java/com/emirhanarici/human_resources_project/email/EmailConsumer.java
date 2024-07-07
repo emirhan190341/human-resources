@@ -1,5 +1,6 @@
 package com.emirhanarici.human_resources_project.email;
 
+import com.emirhanarici.human_resources_project.dto.ApplyJobMessage;
 import com.emirhanarici.human_resources_project.model.EmailConfirmationToken;
 import com.emirhanarici.human_resources_project.model.JobSeeker;
 import com.emirhanarici.human_resources_project.repository.EmailConfirmationTokenRepository;
@@ -16,6 +17,8 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.emirhanarici.human_resources_project.utils.Utils.generateActivationCode;
+
 @Service
 @RequiredArgsConstructor
 public class EmailConsumer {
@@ -26,10 +29,40 @@ public class EmailConsumer {
     @Value("${mailing.frontend.activation-url}")
     private String activationUrl;
 
+
+
     @KafkaListener(topics = "${spring.kafka.topic.email-validation}", groupId = "email-group")
     public void listen(@Payload JobSeeker jobSeeker) throws MessagingException {
         sendValidationEmail(jobSeeker);
     }
+
+    /*
+
+    @KafkaListener(topics = "${spring.kafka.topic.apply-job}", groupId = "apply-group")
+    public void listen(@Payload ApplyJobMessage applyJobMessage) throws MessagingException {
+        sendApplyJobEmail(applyJobMessage);
+    }
+
+    private void sendApplyJobEmail(ApplyJobMessage applyJobMessage) throws MessagingException {
+        var jobSeeker = applyJobMessage.getJobSeeker();
+        var job = applyJobMessage.getJob();
+
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("username", jobSeeker.getFirstName() + " " + jobSeeker.getLastName());
+        properties.put("user_email", jobSeeker.getEmail());
+        properties.put("job_title", job.getPosition());
+        properties.put("application_date", applyJobMessage.getApplyJob().getApplyDate());
+
+        emailService.sendEmail(
+                jobSeeker.getEmail(),
+                EmailTemplateName.APPLY_JOB_SUCCESS,
+                "Job Application",
+                properties
+        );
+    }
+
+     */
+
 
     private void sendValidationEmail(JobSeeker user) throws MessagingException {
         var newToken = generateAndSaveActivationToken(user);
@@ -48,7 +81,7 @@ public class EmailConsumer {
 
     }
 
-    private String generateAndSaveActivationToken(JobSeeker user) {
+    public String generateAndSaveActivationToken(JobSeeker user) {
 
         String generatedToken = generateActivationCode(6);
         var token = EmailConfirmationToken.builder()
@@ -61,22 +94,6 @@ public class EmailConsumer {
         tokenRepository.save(token);
 
         return generatedToken;
-    }
-
-
-
-    private String generateActivationCode(int length) {
-        String characters = "0123456789";
-        StringBuilder codeBuilder = new StringBuilder();
-
-        SecureRandom secureRandom = new SecureRandom();
-
-        for (int i = 0; i < length; i++) {
-            int randomIndex = secureRandom.nextInt(characters.length());
-            codeBuilder.append(characters.charAt(randomIndex));
-        }
-
-        return codeBuilder.toString();
     }
 
 
